@@ -163,7 +163,7 @@ RUN chown -R www-data:www-data /var/www/
 RUN chmod -R 600 /var/www/.ssh/
 
 # Set timezone to Europe/Paris
-RUN echo "Europe/Paris" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
+RUN echo "America/New_York" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
 
 # Expose 80 for apache, 9000 for xdebug
 EXPOSE 80 9000
