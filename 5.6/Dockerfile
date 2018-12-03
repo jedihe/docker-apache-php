@@ -79,7 +79,6 @@ COPY core/memcached.conf /etc/memcached.conf
     echo xdebug.remote_connect_back=1 >> /usr/local/etc/php/conf.d/xdebug.ini &&\
     echo xdebug.remote_port=9000 >> /usr/local/etc/php/conf.d/xdebug.ini &&\
     echo xdebug.remote_log=/tmp/php5-xdebug.log >> /usr/local/etc/php/conf.d/xdebug.ini; \
-
     # SASS and Compass installation
     gem install sass -v 3.4.22 ;\
     gem install compass;
@@ -87,27 +86,21 @@ COPY core/memcached.conf /etc/memcached.conf
     # Installation node.js
     RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
     RUN apt-get install -y nodejs build-essential ;\
-
     # Installation of LESS
     npm update -g npm && \
     npm install -g less && npm install -g less-plugin-clean-css; \
-
     # Installation of Grunt
     npm install -g grunt-cli; \
-
     # Installation of Gulp
     npm install -g gulp; \
-
     # Installation of Composer
     cd /usr/src && curl -sS http://getcomposer.org/installer | php; \
     cd /usr/src && mv composer.phar /usr/bin/composer; \
-
     # Installation of drush
     git clone https://github.com/drush-ops/drush.git /usr/local/src/drush; \
     cd /usr/local/src/drush && git checkout 8.1.2; \
     ln -s /usr/local/src/drush/drush /usr/bin/drush; \
     cd /usr/local/src/drush && composer update && composer install; \
-
     # Add drush components
     mkdir /var/www/.drush; \
     cd /var/www/.drush && wget https://ftp.drupal.org/files/projects/registry_rebuild-7.x-2.3.zip && unzip registry_rebuild-7.x-2.3.zip; \
@@ -115,7 +108,6 @@ COPY core/memcached.conf /etc/memcached.conf
     cd /var/www/.drush && rm *.zip; \
     chown -R www-data:www-data /var/www; \
     sudo -u www-data drush cc drush; \
-
     # Installation of PHP_CodeSniffer with Drupal coding standards.
     # See https://www.drupal.org/node/1419988#coder-composer
     composer global require drupal/coder; \
