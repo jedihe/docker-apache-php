@@ -35,7 +35,7 @@ RUN apt-get clean && apt-get update && apt-get install -y --fix-missing \
   libpq-dev
 
 # postgresql-client-9.5
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - && echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" >> /etc/apt/sources.list && apt-get update && apt-get install -y postgresql-client-9.5
+#RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - && echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" >> /etc/apt/sources.list && apt-get update && apt-get install -y postgresql-client-9.5
 
 # Install PECL packages
 COPY docker-php-pecl-install /usr/local/bin/
@@ -63,8 +63,8 @@ RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/include/ \
   calendar \
   intl \
   exif \
-  pgsql \
-  pdo_pgsql \
+# pgsql \
+# pdo_pgsql \
   ftp
 
 COPY core/memcached.conf /etc/memcached.conf
@@ -78,10 +78,10 @@ COPY core/memcached.conf /etc/memcached.conf
     echo xdebug.remote_autostart=0 >> /usr/local/etc/php/conf.d/xdebug.ini &&\
     echo xdebug.remote_connect_back=1 >> /usr/local/etc/php/conf.d/xdebug.ini &&\
     echo xdebug.remote_port=9000 >> /usr/local/etc/php/conf.d/xdebug.ini &&\
-    echo xdebug.remote_log=/tmp/php5-xdebug.log >> /usr/local/etc/php/conf.d/xdebug.ini; \
+    echo xdebug.remote_log=/tmp/php5-xdebug.log >> /usr/local/etc/php/conf.d/xdebug.ini
     # SASS and Compass installation
-    gem install sass -v 3.4.22 ;\
-    gem install compass;
+#   gem install sass -v 3.4.22 ;\
+#   gem install compass;
 
     # Installation node.js
     RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
@@ -120,9 +120,9 @@ RUN rm -rf /var/www/html && \
   chown -R www-data:www-data /var/lock/apache2 /var/run/apache2 /var/log/apache2 /var/www/html
 
 # installation of ssmtp
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --fix-missing -y ssmtp && rm -r /var/lib/apt/lists/*
-ADD core/ssmtp.conf /etc/ssmtp/ssmtp.conf
-ADD core/php-smtp.ini /usr/local/etc/php/conf.d/php-smtp.ini
+#RUN DEBIAN_FRONTEND=noninteractive apt-get install --fix-missing -y ssmtp && rm -r /var/lib/apt/lists/*
+#ADD core/ssmtp.conf /etc/ssmtp/ssmtp.conf
+#ADD core/php-smtp.ini /usr/local/etc/php/conf.d/php-smtp.ini
 
 COPY config/apache2.conf /etc/apache2
 COPY core/envvars /etc/apache2
@@ -143,16 +143,16 @@ RUN ( \
 RUN a2enmod rewrite expires && service apache2 restart
 
 # install phing
-RUN pear channel-discover pear.phing.info && pear install [--alldeps] phing/phing
+#RUN pear channel-discover pear.phing.info && pear install [--alldeps] phing/phing
 
 # install phpcpd
-RUN wget https://phar.phpunit.de/phpcpd.phar && chmod +x phpcpd.phar && mv phpcpd.phar /usr/local/bin/phpcpd
+#RUN wget https://phar.phpunit.de/phpcpd.phar && chmod +x phpcpd.phar && mv phpcpd.phar /usr/local/bin/phpcpd
 
 # install phpmetrics
-RUN wget https://github.com/phpmetrics/PhpMetrics/raw/master/build/phpmetrics.phar && chmod +x phpmetrics.phar && mv phpmetrics.phar /usr/local/bin/phpmetrics
+#RUN wget https://github.com/phpmetrics/PhpMetrics/raw/master/build/phpmetrics.phar && chmod +x phpmetrics.phar && mv phpmetrics.phar /usr/local/bin/phpmetrics
 
 # Install Drupal Console for Drupal 8
-RUN curl https://drupalconsole.com/installer -L -o drupal.phar && mv drupal.phar /usr/local/bin/drupal && chmod +x /usr/local/bin/drupal
+#RUN curl https://drupalconsole.com/installer -L -o drupal.phar && mv drupal.phar /usr/local/bin/drupal && chmod +x /usr/local/bin/drupal
 
 # Our apache volume
 VOLUME /var/www/html
