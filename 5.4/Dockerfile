@@ -68,7 +68,7 @@ RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/include/ \
 
   # install xdebug and codesniffer
   RUN apt-get install --fix-missing php5-xdebug -y; \
-  pecl install xdebug; \
+  pecl install xdebug-2.4.1; \
   echo 'zend_extension = /usr/local/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so' >> /usr/local/etc/php/php.ini; \
   touch /usr/local/etc/php/conf.d/xdebug.ini &&\
     echo xdebug.remote_enable=1 >> /usr/local/etc/php/conf.d/xdebug.ini &&\
@@ -142,7 +142,7 @@ RUN chown -R www-data:www-data /var/www/
 RUN chmod -R 600 /var/www/.ssh/
 
 # Set timezone to Europe/Paris
-RUN echo "Europe/Paris" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
+RUN echo "America/New_York" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
 
 # Expose 80 for apache, 9000 for xdebug
 EXPOSE 80 9000
