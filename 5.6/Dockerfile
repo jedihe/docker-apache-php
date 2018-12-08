@@ -17,7 +17,7 @@ RUN apt-get clean && apt-get update && apt-get install -y --fix-missing \
   memcached \
   libmemcached-tools \
 #  php5-memcached \
-#  php5-dev \
+# php5-dev \
   libpng12-dev \
   libjpeg62-turbo-dev \
   libmcrypt-dev \
@@ -42,9 +42,9 @@ COPY docker-php-pecl-install /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-php-pecl-install
 RUN docker-php-pecl-install \
   uploadprogress-1.0.3.1 \
-  memcache-3.0.8 \
-  yaml-1.2.0 \
-  mongo-1.6.12
+# memcache-3.0.8 \
+  yaml-1.2.0
+# mongo-1.6.12
 
 COPY docker-php-ext-install /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-php-ext-install
