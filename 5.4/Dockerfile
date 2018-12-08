@@ -7,24 +7,24 @@ COPY config/bashrc /root/
 RUN mv /root/bashrc /root/.bashrc
 
 RUN apt-get clean && apt-get update && apt-get install --fix-missing -y \
-  ruby-dev \
-  rubygems \
-  imagemagick \
+# ruby-dev \
+# rubygems \
+# imagemagick \
   graphviz \
   sudo \
   git \
   vim \
-  memcached \
-  libmemcached-tools \
+# memcached \
+# libmemcached-tools \
   php5-memcached \
-  php5-dev \
+# php5-dev \
   libpng12-dev \
   libjpeg62-turbo-dev \
   libmcrypt-dev \
   libxml2-dev \
   libxslt1-dev \
   mysql-client \
-  php5-mysqlnd \
+# php5-mysqlnd \
   zip \
   wget \
   linux-libc-dev \
@@ -39,9 +39,9 @@ COPY docker-php-pecl-install /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-php-pecl-install
 RUN docker-php-pecl-install \
   uploadprogress-1.0.3.1 \
-  memcache-3.0.8 \
+# memcache-3.0.8 \
   yaml-1.2.0 \
-  mongo-1.6.12 \
+# mongo-1.6.12 \
   apc-3.1.13
 
 COPY docker-php-ext-install /usr/local/bin/
@@ -64,7 +64,7 @@ RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/include/ \
   pdo_pgsql \
   ftp
 
-COPY core/memcached.conf /etc/memcached.conf
+#COPY core/memcached.conf /etc/memcached.conf
 
   # install xdebug and codesniffer
   RUN apt-get install --fix-missing php5-xdebug -y; \
@@ -76,34 +76,26 @@ COPY core/memcached.conf /etc/memcached.conf
     echo xdebug.remote_connect_back=1 >> /usr/local/etc/php/conf.d/xdebug.ini &&\
     echo xdebug.remote_port=9000 >> /usr/local/etc/php/conf.d/xdebug.ini &&\
     echo xdebug.remote_log=/tmp/php5-xdebug.log >> /usr/local/etc/php/conf.d/xdebug.ini; \
-
     # SASS and Compass installation
-    gem install compass; \
-
+#   gem install compass; \
     # Installation node.js
-    curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash -; \
-    DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install -y nodejs; \
-
+#   curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash -; \
+#   DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install -y nodejs; \
     # Installation of LESS
-    npm update -g npm && \
-    npm install -g less && npm install -g less-plugin-clean-css; \
-
+#   npm update -g npm && \
+#   npm install -g less && npm install -g less-plugin-clean-css; \
     # Installation of Grunt
-    npm install -g grunt-cli; \
-
+#   npm install -g grunt-cli; \
     # Installation of Gulp
-    npm install -g gulp; \
-
+#   npm install -g gulp; \
     # Installation of Composer
     cd /usr/src && curl -sS http://getcomposer.org/installer | php; \
     cd /usr/src && mv composer.phar /usr/bin/composer; \
-
     # Installation of drush
     git clone https://github.com/drush-ops/drush.git /usr/local/src/drush; \
     cd /usr/local/src/drush && git checkout 8.0.5; \
     ln -s /usr/local/src/drush/drush /usr/bin/drush; \
     cd /usr/local/src/drush && composer update && composer install; \
-
     # Add drush components
     mkdir /var/www/.drush; \
     cd /var/www/.drush && wget https://ftp.drupal.org/files/projects/registry_rebuild-7.x-2.3.zip && unzip registry_rebuild-7.x-2.3.zip; \
@@ -111,7 +103,6 @@ COPY core/memcached.conf /etc/memcached.conf
     cd /var/www/.drush && rm *.zip; \
     chown -R www-data:www-data /var/www; \
     sudo -u www-data drush cc drush; \
-
     # Installation of PHP_CodeSniffer with Drupal coding standards.
     # See https://www.drupal.org/node/1419988#coder-composer
     composer global require drupal/coder; \
@@ -124,9 +115,9 @@ RUN rm -rf /var/www/html && \
   chown -R www-data:www-data /var/lock/apache2 /var/run/apache2 /var/log/apache2 /var/www/html
 
 # installation of ssmtp
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --fix-missing -y ssmtp && rm -r /var/lib/apt/lists/*
-ADD core/ssmtp.conf /etc/ssmtp/ssmtp.conf
-ADD core/php-smtp.ini /usr/local/etc/php/conf.d/php-smtp.ini
+#RUN DEBIAN_FRONTEND=noninteractive apt-get install --fix-missing -y ssmtp && rm -r /var/lib/apt/lists/*
+#ADD core/ssmtp.conf /etc/ssmtp/ssmtp.conf
+#ADD core/php-smtp.ini /usr/local/etc/php/conf.d/php-smtp.ini
 
 COPY config/apache2.conf /etc/apache2
 RUN chown -R www-data:www-data /var/www
@@ -134,13 +125,13 @@ RUN chown -R www-data:www-data /var/www
 RUN a2enmod rewrite expires && service apache2 restart
 
 # install phing
-RUN pear channel-discover pear.phing.info && pear install [--alldeps] phing/phing
+#RUN pear channel-discover pear.phing.info && pear install [--alldeps] phing/phing
 
 # install phpcpd
-RUN wget https://phar.phpunit.de/phpcpd.phar && chmod +x phpcpd.phar && mv phpcpd.phar /usr/local/bin/phpcpd
+#RUN wget https://phar.phpunit.de/phpcpd.phar && chmod +x phpcpd.phar && mv phpcpd.phar /usr/local/bin/phpcpd
 
 # install phpmetrics
-RUN wget https://github.com/phpmetrics/PhpMetrics/raw/master/build/phpmetrics.phar && chmod +x phpmetrics.phar && mv phpmetrics.phar /usr/local/bin/phpmetrics
+#RUN wget https://github.com/phpmetrics/PhpMetrics/raw/master/build/phpmetrics.phar && chmod +x phpmetrics.phar && mv phpmetrics.phar /usr/local/bin/phpmetrics
 
 # Our apache volume
 VOLUME /var/www/html
