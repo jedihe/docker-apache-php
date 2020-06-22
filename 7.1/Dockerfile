@@ -64,7 +64,7 @@ RUN docker-php-ext-install \
   xsl \
   opcache \
   calendar \
-  intl \
+# intl \
   exif \
   pgsql \
   pdo_pgsql \
